@@ -1,0 +1,31 @@
+\documentclass[12pt]{article}
+\usepackage[a4paper, margin=1in, headheight=57pt]{geometry}
+\usepackage{amssymb}
+\usepackage{braket}
+
+\begin{document}
+\date{}
+\author{Ferraro Davide}
+\title{\textbf{Polimeri e Self Avoiding Walks}}
+\maketitle
+\begin{center}
+Laurea Triennale in Fisica \linebreak
+Università di Pisa, Dipartimento di Fisica
+\end{center}
+Un \textit{polimero} è una molecola composta da una catena di \textit{monomeri} (gruppi di atomi) tenuti assieme da legami chimici, tipicamente covalenti. Considerando le interazioni tra uno degli $n$ monomeri ed un numero $g$ di suoi vicini, possiamo definire una catena composta da $n/g$ sotto unità, che hanno il vantaggio di essere indipendenti tra loro. Ciò significa che, se la catena è abbastanza lunga, le interazioni tra i singoli monomeri sono trascurabili se siamo interessati a proprietà globali, e possiamo considerare il polimero come una catena fatta da sotto-elementi a distanza fissata.
+I polimeri, specialmente quelli \textit{lineari} (nei quali ogni monomero fa due legami), possono essere molto grandi; alcuni di essi sono composti da più di $10^5$ monomeri. Inoltre, il volume occupato da ciascuno dei monomeri, detto \textit{volume escluso}, non può essere occupato da nessun altro monomero.
+
+Ne consegue che un polimero lineare è ben modellato da un \textit{self avoiding random walk} (o SAW), ossia un cammino randomico (che rappresenta la catena) che non interseca mai sè stesso (che rappresenta il volume escluso). Il numero di configurazioni che può adottare una catena da $n$ monomeri, oppure la distanza quadratica media tra i suoi estremi, sono domande che possono essere traslate nello studio dei SAW. Nella nostra ipotesi di $n$ grande, un polimero è modellato da un SAW che vive in un reticolo di interi. In particolare, il reticolo è in $\mathbb{Z}^3$ se il polimero è libero in soluzione, oppure in $\mathbb{Z}^2$ se il polimero è trattenuto su una qualche superficie (\textit{adsorbimento}). Nel mio studio mi sono concentrato su quest'ultimo caso, ed in particolare su polimeri lineari che quindi sono modellati da cammini su un reticolo quadrato.
+
+Nonostante la semplice definizione, le proprietà matematiche dei SAW sono complesse, e sia il numero possibile di configurazioni $c_n$ che la distanza quadratica media $\braket{R_n^2}$ tra gli estremi di un cammino sono descritte solo da relazioni congetturate. In particolare, si crede esista un esponente critico $\nu$ ed una costante $A$ tale che $\braket{R^2_n}\sim AN^{2\nu}$, dove $A,\nu$ dipendono dalla dimensione in cui vive il reticolo ma non dalla sua geometria. In due dimensioni il valore dell'esponente $\nu$ si suppone sia pari a $3/4$.
+
+I metodi Monte Carlo sono storicamente stati essenziali per studiare le proprietà dei SAW. Nel mio progetto di tesi ho utilizzato 3 diversi metodi per generare catene di lunghezza $n$ e stimarne il raggio quadratico medio $\braket{R_n^2}$: il \textit{simple sampling}, l'algoritmo di \textit{dimerizzazione} e l'algoritmo \textit{pivot}. Il simple sampling è un metodo \textit{statico}, che genera cammini di $n$ passi muovendosi casualmente sul reticolo, e scartando il risultato se il cammino si autointerseca; è estremamente inefficiente per $n$ grandi ($n\gtrsim 50$). L'algoritmo di dimerizzazione è anch'esso statico, e genera cammini lunghi combinando ricorsivamente cammini più corti. L'algoritmo pivot, invece, è un processo \textit{dinamico} e \textit{Markoviano}. Prende in input un cammino di $n$ passi e applica una qualche trasformazione ad un segmento del cammino; il nuovo cammino viene scartato se si verifica auto-intersecazione. Nonostante l'efficienza per $n$ sia minore rispetto ad altri processi dinamici grandi, l'algoritmo pivot garantisce una convergenza più veloce al valore esatto di $\braket{R_n^2}$.
+
+
+
+
+
+
+%Il simple sampling, come suggerisce il nome, è un metodo intuitivo e facilmente implementabile. I passi del cammino sono generati randomicamente, con l'unica restrizione che ogni passo "ricordi" il passo precedente, in modo da evitare di tornare su sè stesso. Il simple sampling è un metodo \textit{statico}, ossia genera una sequenza di SAW indipendenti tra loro. L'efficienza dell'algoritmo descresce rapidamente con il crescere di $N$; per catene lunghe ($N\gtrsim70$) diventa proibitivo. L'algoritmo di dimerizzazione è essenzialmente un processo ricorsivo. L'idea è che se desideriamo generare una cammino di $N$ passi, allora possiamo generare due cammini indipendenti di $N/2$ passi e successivamente tentare di concatenarli. Per generare tali cammini da $N/2$ passi possiamo usare 4 cammini da $N/4$ passi e così via. La ricorsione si ferma dopo $k$ livelli se si ha un metodo veloce per generare SAW di $N_0=N/2^k$ passi; nel mio caso ho utilizzato il simple sampling con $N_0=10$. Anche questo è un metodo statico. L'algoritmo pivot, genera cammini di lunghezza $N$ a partire
+
+\end{document}
